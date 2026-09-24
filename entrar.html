@@ -1,4 +1,4 @@
-github.com/DomLeo<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -184,6 +184,11 @@ github.com/DomLeo<!DOCTYPE html>
       <input type="text" id="nome" placeholder="Como quer ser chamada(o)?">
     </div>
 
+    <div id="campoWhats" class="campo" style="display:none;">
+      <label>WhatsApp (com DDD)</label>
+      <input type="tel" id="whatsapp" placeholder="(11) 99999-9999">
+    </div>
+
     <div class="campo">
       <label>E-mail</label>
       <input type="email" id="email" placeholder="seu@email.com">
@@ -215,6 +220,7 @@ github.com/DomLeo<!DOCTYPE html>
     document.getElementById('abaEntrar').classList.toggle('ativa', modo === 'entrar');
     document.getElementById('abaCriar').classList.toggle('ativa', modo === 'criar');
     document.getElementById('campoNome').style.display = modo === 'criar' ? 'block' : 'none';
+    document.getElementById('campoWhats').style.display = modo === 'criar' ? 'block' : 'none';
     document.getElementById('btnAcao').textContent = modo === 'criar' ? 'Criar minha conta' : 'Entrar';
     esconderMensagem();
   }
@@ -233,6 +239,7 @@ github.com/DomLeo<!DOCTYPE html>
 
   async function executar() {
     const nome = document.getElementById('nome').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
     const btn = document.getElementById('btnAcao');
@@ -254,6 +261,11 @@ github.com/DomLeo<!DOCTYPE html>
       return;
     }
 
+    if (modo === 'criar' && !whatsapp) {
+      mostrarMensagem('Digite seu WhatsApp com DDD.', 'erro');
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = modo === 'criar' ? 'Criando...' : 'Entrando...';
 
@@ -270,7 +282,10 @@ github.com/DomLeo<!DOCTYPE html>
           body: JSON.stringify({
             email: email,
             password: senha,
-            data: { nome: nome }
+            data: {
+              nome: nome,
+              whatsapp: whatsapp
+            }
           })
         });
         const data = await res.json();
@@ -306,7 +321,6 @@ github.com/DomLeo<!DOCTYPE html>
           return;
         }
 
-        // Salva o login no navegador
         localStorage.setItem('ef_token', data.access_token);
         localStorage.setItem('ef_user', JSON.stringify(data.user));
 
@@ -325,4 +339,4 @@ github.com/DomLeo<!DOCTYPE html>
 </script>
 
 </body>
-</html>tta0310/ensino-facil/new/main
+</html>
