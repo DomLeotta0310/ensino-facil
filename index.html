@@ -23,9 +23,45 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
-  .logo { font-size: 22px; font-weight: bold; color: #3D2314; }
+  .logo { font-size: 22px; font-weight: bold; color: #3D2314; text-decoration: none; }
   .logo span { color: #8B5E3C; }
+  .menu {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+  .menu a, .menu button {
+    text-decoration: none;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-family: Arial, sans-serif;
+  }
+  .btn-estante {
+    background: #C9A961;
+    color: #FAF3E8;
+    font-weight: bold;
+  }
+  .btn-estante:hover { background: #8B5E3C; }
+  .btn-sair {
+    background: transparent;
+    border: 1px solid #8B5E3C !important;
+    color: #8B5E3C;
+  }
+  .btn-sair:hover { background: #8B5E3C; color: #FAF3E8; }
+  .btn-entrar {
+    background: #6B4423;
+    color: #FAF3E8;
+    font-weight: bold;
+  }
+  .btn-entrar:hover { background: #3D2314; }
   main { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
   h1 {
     font-size: 42px;
@@ -84,7 +120,8 @@
 <body>
 
 <header>
-  <div class="logo">📖 Ensino <span>Fácil</span></div>
+  <a href="index.html" class="logo">📖 Ensino <span>Fácil</span></a>
+  <div class="menu" id="menu"></div>
 </header>
 
 <main>
@@ -99,6 +136,34 @@
   const SUPABASE_URL = "https://lfepiujvufjbufzblnke.supabase.co";
   const SUPABASE_KEY = "sb_publishable_gtzU89_Ygs146r-beP3nHA_nIEdFK8j";
 
+  // ==== MENU (login ou estante) ====
+  const token = localStorage.getItem('ef_token');
+  const userRaw = localStorage.getItem('ef_user');
+  const menu = document.getElementById('menu');
+
+  if (token && userRaw) {
+    // Usuário logado
+    const user = JSON.parse(userRaw);
+    const nome = (user.user_metadata && user.user_metadata.nome) || 'você';
+    menu.innerHTML = `
+      <span style="color:#8B5E3C;font-size:13px;">Olá, ${nome.split(' ')[0]}!</span>
+      <a href="minha-biblioteca.html" class="btn-estante">📚 Minha Estante</a>
+      <button class="btn-sair" onclick="sair()">Sair</button>
+    `;
+  } else {
+    // Não logado
+    menu.innerHTML = `
+      <a href="entrar.html" class="btn-entrar">Entrar</a>
+    `;
+  }
+
+  function sair() {
+    localStorage.removeItem('ef_token');
+    localStorage.removeItem('ef_user');
+    window.location.href = 'index.html';
+  }
+
+  // ==== CARREGAR CATEGORIAS ====
   async function carregarCategorias() {
     const lista = document.getElementById('lista-categorias');
     try {
@@ -133,4 +198,4 @@
 </script>
 
 </body>
-</html> 
+</html>
