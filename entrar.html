@@ -137,6 +137,7 @@
     font-size: 13px;
     text-align: center;
     display: none;
+    word-break: break-word;
   }
   .mensagem.sucesso {
     display: block;
@@ -290,14 +291,16 @@
         });
         const data = await res.json();
 
-        if (data.error || data.msg || !data.id) {
-          mostrarMensagem(data.error_description || data.msg || data.error || 'Erro ao criar conta.', 'erro');
+        // Mostra TUDO que veio do servidor (pra descobrir o erro real)
+        if (!res.ok || data.error || data.msg) {
+          const erroDetalhado = JSON.stringify(data, null, 2);
+          mostrarMensagem('Erro: ' + (data.error_description || data.msg || data.error || erroDetalhado), 'erro');
           btn.disabled = false;
           btn.textContent = 'Criar minha conta';
           return;
         }
 
-        mostrarMensagem('Conta criada! Verifique seu e-mail pra confirmar. ✅', 'sucesso');
+        mostrarMensagem('Conta criada com sucesso! Agora faça login. ✅', 'sucesso');
         btn.disabled = false;
         btn.textContent = 'Criar minha conta';
 
@@ -315,7 +318,7 @@
         const data = await res.json();
 
         if (!data.access_token) {
-          mostrarMensagem(data.error_description || data.error || 'E-mail ou senha incorretos.', 'erro');
+          mostrarMensagem('Erro no login: ' + (data.error_description || data.error || JSON.stringify(data)), 'erro');
           btn.disabled = false;
           btn.textContent = 'Entrar';
           return;
@@ -331,7 +334,7 @@
       }
 
     } catch (e) {
-      mostrarMensagem('Erro de conexão. Tente novamente.', 'erro');
+      mostrarMensagem('Erro de conexão: ' + e.message, 'erro');
       btn.disabled = false;
       btn.textContent = modo === 'criar' ? 'Criar minha conta' : 'Entrar';
     }
