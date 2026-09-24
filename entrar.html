@@ -272,7 +272,6 @@
 
     try {
       if (modo === 'criar') {
-        // === CRIAR CONTA ===
         const res = await fetch(SUPABASE_URL + '/auth/v1/signup', {
           method: 'POST',
           headers: {
@@ -283,55 +282,61 @@
           body: JSON.stringify({
             email: email,
             password: senha,
-            data: {
-              nome: nome,
-              whatsapp: whatsapp
-            }
+            data: { nome: nome, whatsapp: whatsapp }
           })
         });
         const data = await res.json();
 
-        // Mostra TUDO que veio do servidor (pra descobrir o erro real)
         if (!res.ok || data.error || data.msg) {
-          const erroDetalhado = JSON.stringify(data, null, 2);
-          mostrarMensagem('Erro: ' + (data.error_description || data.msg || data.error || erroDetalhado), 'erro');
+          mostrarMensagem('Erro: ' + (data.error_description || data.msg || data.error), 'erro');
           btn.disabled = false;
           btn.textContent = 'Criar minha conta';
           return;
         }
 
-        mostrarMensagem('Conta criada com sucesso! Agora faça login. ✅', 'sucesso');
-        btn.disabled = false;
-        btn.textContent = 'Criar minha conta';
+        // Depois de criar conta, já faz login automático
+        mostrarMensagem('Conta criada! Entrando automaticamente... 🎉', 'sucesso');
+        setTimeout(() => fazerLogin(email, senha), 800);
 
       } else {
-        // === ENTRAR ===
-        const res = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: email, password: senha })
-        });
-        const data = await res.json();
-
-        if (!data.access_token) {
-          mostrarMensagem('Erro no login: ' + (data.error_description || data.error || JSON.stringify(data)), 'erro');
-          btn.disabled = false;
-          btn.textContent = 'Entrar';
-          return;
-        }
-
-        localStorage.setItem('ef_token', data.access_token);
-        localStorage.setItem('ef_user', JSON.stringify(data.user));
-
-        mostrarMensagem('Login feito! Redirecionando... 🎉', 'sucesso');
-        setTimeout(() => {
-          window.location.href = 'minha-biblioteca.html';
-        }, 1000);
+        await fazerLogin(email, senha);
       }
+
+    } catch (e) {
+      mostrarMensagem('Erro de conexão: ' + e.message, 'erro');
+      btn.disabled = false;
+      btn.textContent = modo === 'criar' ? 'Criar minha conta' : 'Entrar';
+    }
+  }
+
+  async function fazerLogin(email, senha) {
+    const btn = document.getElementById('btnAcao');
+    try {
+      const res = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: senha })
+      });
+      const data = await res.json();
+
+      if (!data.access_token) {
+        mostrarMensagem('Erro no login: ' + (data.error_description || data.error), 'erro');
+        btn.disabled = false;
+        btn.textContent = modo === 'criar' ? 'Criar minha conta' : 'Entrar';
+        return;
+      }
+
+      localStorage.setItem('ef_token', data.access_token);
+      localStorage.setItem('ef_user', JSON.stringify(data.user));
+
+      mostrarMensagem('Login feito! Voltando para a loja... 🎉', 'sucesso');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 800);
 
     } catch (e) {
       mostrarMensagem('Erro de conexão: ' + e.message, 'erro');
