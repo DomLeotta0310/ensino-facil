@@ -8,7 +8,8 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: Arial, sans-serif; background: #F7F3EE; color: #3D2314; min-height: 100vh; }
 
-  #login { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(180deg, #FAF3E8 0%, #F0E2CC 100%); }
+  /* LOGIN */
+  #login { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(180deg, #FAF3E8 0%, #F0E2CC 100%); padding: 20px; }
   .login-card { background: #FAF3E8; border: 1px solid #E4D2B7; border-radius: 20px; padding: 40px 32px; width: 100%; max-width: 380px; box-shadow: 0 8px 24px -8px rgba(61,35,20,0.25); text-align: center; }
   .login-card h1 { font-family: 'Georgia', serif; font-size: 26px; margin-bottom: 6px; }
   .login-card p { font-size: 13px; color: #8B5E3C; margin-bottom: 24px; }
@@ -17,12 +18,15 @@
   .login-card button { width: 100%; padding: 14px; background: #6B4423; color: #FAF3E8; border: none; border-radius: 999px; font-size: 15px; font-weight: bold; cursor: pointer; font-family: 'Georgia', serif; }
   .login-card .erro { color: #C62828; font-size: 13px; margin-top: 10px; display: none; }
 
+  /* PAINEL */
   #painel { display: none; }
-  .topo { background: #1F2A2E; color: #FAF3E8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .topo { background: #1F2A2E; color: #FAF3E8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
   .topo .logo { font-family: 'Georgia', serif; font-size: 20px; font-weight: bold; }
   .topo .logo span { color: #C9A961; }
+  .topo .dir { display: flex; gap: 8px; align-items: center; }
   .topo button { background: transparent; border: 1px solid #FAF3E8; color: #FAF3E8; padding: 8px 16px; border-radius: 999px; cursor: pointer; font-size: 13px; }
   .topo button:hover { background: #FAF3E8; color: #1F2A2E; }
+  .btn-menu { display: none; }
 
   .layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
   .menu-lateral { background: #2B3A3F; padding: 20px 0; }
@@ -34,8 +38,10 @@
   .conteudo h2 { font-family: 'Georgia', serif; font-size: 26px; margin-bottom: 4px; }
   .conteudo .sub { color: #8B5E3C; font-size: 14px; margin-bottom: 24px; }
 
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
-  .card-stat { background: #FFFFFF; border-radius: 14px; padding: 20px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.12); border-left: 4px solid #C9A961; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 30px; }
+  .card-stat { background: #FFFFFF; border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.12); border-left: 4px solid #C9A961; }
+  .card-stat.pendente { border-left-color: #FFC107; }
+  .card-stat.vendas { border-left-color: #4CAF50; }
   .card-stat .label { font-size: 12px; color: #8B5E3C; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
   .card-stat .valor { font-size: 26px; font-weight: bold; color: #3D2314; }
 
@@ -50,7 +56,12 @@
   .btn-primario:hover { background: #3D2314; }
   .btn-primario:disabled { background: #C9A961; cursor: wait; }
 
-  /* Área de upload (arrastar) */
+  /* Emojis rápidos */
+  .emoji-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .emoji-picker span { cursor: pointer; font-size: 22px; padding: 4px 8px; border-radius: 8px; border: 1px solid #E4D2B7; background: #FFF; transition: all 0.15s; }
+  .emoji-picker span:hover { background: #F0E2CC; transform: scale(1.1); }
+
+  /* Upload */
   .upload-box { border: 2px dashed #C9A961; border-radius: 12px; padding: 20px; text-align: center; background: #FFFDF8; cursor: pointer; transition: all 0.2s; position: relative; min-height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .upload-box:hover, .upload-box.arrastando { background: #FAF3E8; border-color: #6B4423; }
   .upload-box .icone { font-size: 28px; margin-bottom: 6px; }
@@ -58,35 +69,80 @@
   .upload-box .sub-txt { font-size: 11px; color: #8B5E3C; margin-top: 4px; }
   .upload-box input[type=file] { display: none; }
   .upload-box .preview { max-width: 100%; max-height: 140px; border-radius: 8px; margin-top: 8px; }
-  .upload-box .barra { width: 100%; height: 6px; background: #E4D2B7; border-radius: 3px; margin-top: 10px; overflow: hidden; display: none; }
-  .upload-box .barra div { height: 100%; background: #6B4423; width: 0%; transition: width 0.3s; }
   .upload-box .remover { position: absolute; top: 6px; right: 6px; background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; border-radius: 6px; padding: 3px 8px; font-size: 11px; cursor: pointer; }
 
   .campo-url { margin-top: 8px; }
   .campo-url input { font-size: 12px; background: #F7F3EE; }
   .campo-url small { font-size: 11px; color: #8B5E3C; }
 
+  /* Lista */
   .lista { display: grid; gap: 12px; }
   .item { background: #FFFFFF; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.10); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .item.pendente { border-left: 4px solid #FFC107; }
   .item .esquerda { display: flex; align-items: center; gap: 14px; }
   .item .capa-mini { width: 50px; height: 65px; background: #E4D2B7; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; flex-shrink: 0; }
   .item .capa-mini img { width: 100%; height: 100%; object-fit: cover; }
-  .item .nome { font-weight: bold; font-size: 15px; }
+  .item .nome { font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .item .detalhe { font-size: 12px; color: #8B5E3C; margin-top: 3px; }
   .item .botoes { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-acao { padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; border: 1px solid #E4D2B7; background: #FAF3E8; color: #6B4423; text-decoration: none; font-family: Arial, sans-serif; }
+  .btn-acao { padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; border: 1px solid #E4D2B7; background: #FAF3E8; color: #6B4423; text-decoration: none; font-family: Arial, sans-serif; display: inline-flex; align-items: center; gap: 4px; }
   .btn-acao:hover { background: #F0E2CC; }
   .btn-zap { background: #25D366; color: #FFF; border: none; font-weight: bold; }
   .btn-zap:hover { background: #1DA851; }
+  .btn-editar { background: #E3F2FD; color: #1565C0; border: 1px solid #90CAF9; }
+  .btn-editar:hover { background: #BBDEFB; }
   .btn-excluir { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
   .btn-excluir:hover { background: #FFCDD2; }
 
-  .vazio-lista { text-align: center; padding: 40px; color: #8B5E3C; background: #FFFFFF; border-radius: 12px; font-size: 14px; border: 2px dashed #E4D2B7; }
+  .selo { display: inline-block; font-size: 10px; padding: 3px 9px; border-radius: 999px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+  .selo-pendente { background: #FFF8E1; color: #B8860B; border: 1px solid #FFE082; }
+  .selo-ok { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
 
+  .vazio-lista { text-align: center; padding: 40px; color: #8B5E3C; background: #FFFFFF; border-radius: 12px; font-size: 14px; border: 2px dashed #E4D2B7; }
   .aviso { padding: 12px 16px; background: #FFF8E1; border: 1px solid #FFE082; color: #7A5C00; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
 
-  .toast { position: fixed; bottom: 20px; right: 20px; background: #2E7D32; color: #FFF; padding: 14px 22px; border-radius: 10px; font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 9999; display: none; }
+  /* Modal */
+  .modal-fundo { position: fixed; inset: 0; background: rgba(20,10,5,0.7); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-fundo.aberto { display: flex; }
+  .modal { background: #FFF; border-radius: 16px; padding: 28px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .modal h3 { font-family: 'Georgia', serif; font-size: 20px; margin-bottom: 20px; }
+  .modal label { display: block; font-size: 12px; color: #8B5E3C; font-weight: bold; margin-bottom: 4px; margin-top: 12px; }
+  .modal input { width: 100%; padding: 10px 12px; border: 1px solid #E4D2B7; border-radius: 8px; font-size: 14px; outline: none; }
+  .modal input:focus { border-color: #C9A961; }
+  .modal .botoes { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+  .modal .btn-cancelar { background: #F0E2CC; color: #6B4423; border: none; padding: 10px 20px; border-radius: 999px; cursor: pointer; font-size: 14px; }
+  .modal .btn-salvar { background: #6B4423; color: #FAF3E8; border: none; padding: 10px 24px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: bold; }
+
+  .toast { position: fixed; bottom: 20px; right: 20px; left: 20px; max-width: 340px; margin-left: auto; background: #2E7D32; color: #FFF; padding: 14px 22px; border-radius: 10px; font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 9999; display: none; }
   .toast.erro { background: #C62828; }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .menu-lateral {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 90;
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+      overflow-y: auto;
+    }
+    .menu-lateral.aberto { transform: translateX(0); }
+    .btn-menu { display: inline-flex; }
+    .conteudo { padding: 20px 16px; }
+    .conteudo h2 { font-size: 22px; }
+    .topo { padding: 12px 16px; }
+    .topo .logo { font-size: 17px; }
+    .card-stat .valor { font-size: 22px; }
+    .cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .formulario { padding: 18px; }
+    .item { padding: 14px; }
+    .item .botoes { width: 100%; justify-content: flex-start; }
+    .item .botoes .btn-acao { flex: 1; justify-content: center; min-width: 100px; }
+  }
 </style>
 </head>
 <body>
@@ -104,11 +160,14 @@
 <div id="painel">
   <div class="topo">
     <div class="logo">📖 Ensino <span>Fácil</span> — ADM</div>
-    <button onclick="sair()">Sair</button>
+    <div class="dir">
+      <button class="btn-menu" onclick="toggleMenu()">☰</button>
+      <button onclick="sair()">Sair</button>
+    </div>
   </div>
 
   <div class="layout">
-    <nav class="menu-lateral">
+    <nav class="menu-lateral" id="menuLateral">
       <a data-secao="dashboard" class="ativo">📊 Painel</a>
       <a data-secao="categorias">📁 Categorias</a>
       <a data-secao="lojas">🏪 Lojas</a>
@@ -117,6 +176,23 @@
     </nav>
 
     <main class="conteudo" id="conteudo"></main>
+  </div>
+</div>
+
+<!-- MODAL EDITAR CLIENTE -->
+<div class="modal-fundo" id="modalCliente">
+  <div class="modal">
+    <h3>✏️ Editar cliente</h3>
+    <label>Nome</label>
+    <input id="editNome">
+    <label>WhatsApp (com DDD)</label>
+    <input id="editZap" placeholder="(11) 99999-9999">
+    <label>E-mail</label>
+    <input id="editEmail" disabled style="background:#F7F3EE;color:#8B5E3C;">
+    <div class="botoes">
+      <button class="btn-cancelar" onclick="fecharModalCliente()">Cancelar</button>
+      <button class="btn-salvar" onclick="salvarCliente()">Salvar</button>
+    </div>
   </div>
 </div>
 
@@ -135,25 +211,28 @@
   };
 
   let secaoAtual = 'dashboard';
+  let clienteEditando = null;
 
-  // ==== HELPERS ====
+  // ===== HELPERS =====
   function toast(msg, erro) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = 'toast' + (erro ? ' erro' : '');
     t.style.display = 'block';
-    setTimeout(() => { t.style.display = 'none'; }, 3000);
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => { t.style.display = 'none'; }, 3000);
   }
 
   function normalizarWhatsApp(num) {
     let d = (num || '').replace(/\D/g, '');
     if (!d) return '';
-    // Se já começa com 55 e tem tamanho de BR (12 ou 13), mantém
     if (d.startsWith('55') && d.length >= 12) return d;
-    // Se tem 10 ou 11 dígitos, adiciona 55
     if (d.length === 10 || d.length === 11) return '55' + d;
-    // Caso geral: se já tem 12-13 dígitos, deixa; senão adiciona 55
     return d.length >= 12 ? d : '55' + d;
+  }
+
+  function toggleMenu() {
+    document.getElementById('menuLateral').classList.toggle('aberto');
   }
 
   async function uploadArquivo(file, bucket) {
@@ -176,7 +255,7 @@
     return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${nome}`;
   }
 
-  // ==== LOGIN ====
+  // ===== LOGIN =====
   function entrar() {
     const senha = document.getElementById('senhaInput').value;
     if (senha === SENHA) {
@@ -197,9 +276,12 @@
   }
   if (localStorage.getItem('ef_admin') === 'ok') abrirPainel();
 
-  // ==== NAVEGAÇÃO ====
+  // ===== NAVEGAÇÃO =====
   document.querySelectorAll('.menu-lateral a').forEach(link => {
-    link.addEventListener('click', () => navegar(link.dataset.secao));
+    link.addEventListener('click', () => {
+      navegar(link.dataset.secao);
+      document.getElementById('menuLateral').classList.remove('aberto');
+    });
   });
 
   function navegar(secao) {
@@ -213,17 +295,18 @@
     if (secao === 'clientes') renderClientes();
   }
 
-  // ==== DASHBOARD ====
+  // ===== DASHBOARD =====
   async function renderDashboard() {
     const c = document.getElementById('conteudo');
     c.innerHTML = '<h2>Painel</h2><p class="sub">Visão geral do Ensino Fácil</p><p>Carregando...</p>';
     try {
-      const [cats, lojas, prods, clientes, vendas] = await Promise.all([
+      const [cats, lojas, prods, clientes, vendas, pendentes] = await Promise.all([
         fetch(SUPABASE_URL + '/rest/v1/categorias?select=id', { headers }).then(r => r.json()),
         fetch(SUPABASE_URL + '/rest/v1/lojas?select=id', { headers }).then(r => r.json()),
-        fetch(SUPABASE_URL + '/rest/v1/produtos?select=id,titulo,tipo', { headers }).then(r => r.json()),
+        fetch(SUPABASE_URL + '/rest/v1/produtos?select=id', { headers }).then(r => r.json()),
         fetch(SUPABASE_URL + '/rest/v1/clientes?select=id', { headers }).then(r => r.json()),
-        fetch(SUPABASE_URL + '/rest/v1/compras?select=id', { headers }).then(r => r.json())
+        fetch(SUPABASE_URL + '/rest/v1/compras?select=id&status=eq.pago', { headers }).then(r => r.json()),
+        fetch(SUPABASE_URL + '/rest/v1/compras?select=id&status=eq.pendente', { headers }).then(r => r.json())
       ]);
       c.innerHTML = `
         <h2>Painel</h2>
@@ -233,14 +316,17 @@
           <div class="card-stat"><div class="label">Lojas</div><div class="valor">${lojas.length}</div></div>
           <div class="card-stat"><div class="label">Produtos</div><div class="valor">${prods.length}</div></div>
           <div class="card-stat"><div class="label">Clientes</div><div class="valor">${clientes.length}</div></div>
-          <div class="card-stat"><div class="label">Vendas</div><div class="valor">${vendas.length}</div></div>
+          <div class="card-stat vendas"><div class="label">Vendas</div><div class="valor">${vendas.length}</div></div>
+          <div class="card-stat pendente"><div class="label">⏳ Pendentes</div><div class="valor">${pendentes.length}</div></div>
         </div>
-        <div class="aviso">💡 <b>Em breve:</b> ranking de produtos mais vendidos e faturamento total (quando o Mercado Pago estiver ligado).</div>
+        <div class="aviso">💡 <b>Dica:</b> os "pendentes" são clientes que começaram a comprar e não finalizaram. Vá em <b>Clientes</b> pra ver e mandar WhatsApp.</div>
       `;
     } catch (e) { c.innerHTML = '<p>Erro ao carregar.</p>'; }
   }
 
-  // ==== CATEGORIAS ====
+  // ===== CATEGORIAS =====
+  const EMOJIS_RAPIDOS = ['🧁','🍰','🍫','🍪','🐶','🐱','🐾','👗','👠','💄','📚','🎓','💻','📱','🎬','🎨','🏋️','🍳','🍕','🧵','🎵','⚙️','🔧','💡'];
+
   async function renderCategorias() {
     const c = document.getElementById('conteudo');
     c.innerHTML = `
@@ -250,10 +336,14 @@
         <h3>Nova categoria</h3>
         <div class="linha-form">
           <div><label>Nome</label><input id="catNome" placeholder="Ex: Confeitaria"></div>
-          <div><label>Emoji</label><input id="catEmoji" placeholder="Ex: 🧁" maxlength="4"></div>
           <div><label>Ordem</label><input id="catOrdem" type="number" value="1"></div>
         </div>
-        <button class="btn-primario" onclick="criarCategoria()">Criar categoria</button>
+        <label>Emoji (clique num abaixo ou digite)</label>
+        <input id="catEmoji" placeholder="Ex: 🧁" maxlength="4" style="max-width:120px;">
+        <div class="emoji-picker" id="emojiPicker">
+          ${EMOJIS_RAPIDOS.map(e => `<span onclick="document.getElementById('catEmoji').value='${e}'">${e}</span>`).join('')}
+        </div>
+        <div style="margin-top:16px;"><button class="btn-primario" onclick="criarCategoria()">Criar categoria</button></div>
       </div>
       <div class="lista" id="listaCats"></div>
     `;
@@ -295,7 +385,7 @@
     carregarCats();
   }
 
-  // ==== LOJAS ====
+  // ===== LOJAS =====
   async function renderLojas() {
     const c = document.getElementById('conteudo');
     const cats = await fetch(SUPABASE_URL + '/rest/v1/categorias?select=*', { headers }).then(r => r.json());
@@ -355,7 +445,7 @@
     carregarLojas();
   }
 
-  // ==== PRODUTOS (com upload) ====
+  // ===== PRODUTOS =====
   let capa_url_global = '';
   let arquivo_url_global = '';
   let previas_urls_global = [];
@@ -377,7 +467,6 @@
 
       <div class="formulario">
         <h3>Novo produto</h3>
-
         <div class="linha-form">
           <div><label>Título</label><input id="pTitle" placeholder="Ex: Bolo de Chocolate Cremoso"></div>
           <div><label>Preço (R$)</label><input id="pPreco" type="number" step="0.01" placeholder="29.90"></div>
@@ -390,21 +479,17 @@
             </select>
           </div>
         </div>
-
         <div class="linha-form">
           <div><label>Loja</label><select id="pLoja">${lojas.map(l => `<option value="${l.id}">${l.nome}</option>`).join('')}</select></div>
           <div><label>Categoria</label><select id="pCat">${cats.map(c => `<option value="${c.id}">${c.emoji || ''} ${c.nome}</option>`).join('')}</select></div>
         </div>
-
         <div class="linha-form">
-          <div style="grid-column: 1 / -1;"><label>Descrição curta (aparece no card)</label><input id="pDescCurta" placeholder="Uma frase curta"></div>
+          <div style="grid-column: 1 / -1;"><label>Descrição curta</label><input id="pDescCurta" placeholder="Uma frase curta"></div>
+        </div>
+        <div class="linha-form">
+          <div style="grid-column: 1 / -1;"><label>Descrição completa (opcional)</label><textarea id="pDescLonga"></textarea></div>
         </div>
 
-        <div class="linha-form">
-          <div style="grid-column: 1 / -1;"><label>Descrição completa (opcional)</label><textarea id="pDescLonga" placeholder="Texto que aparece em 'Sobre este material'"></textarea></div>
-        </div>
-
-        <!-- CAPA -->
         <div class="linha-form">
           <div style="grid-column: 1 / -1;">
             <label>🖼️ Capa do produto</label>
@@ -413,16 +498,11 @@
               <div class="icone">📤</div>
               <div class="txt">Clique ou arraste a imagem aqui</div>
               <div class="sub-txt">JPG, PNG ou WEBP</div>
-              <div class="barra" id="barraCapa"><div></div></div>
             </div>
-            <div class="campo-url">
-              <small>Ou cole uma URL direta da capa (opcional):</small>
-              <input id="pCapaUrl" placeholder="https://..." oninput="capa_url_global = this.value">
-            </div>
+            <div class="campo-url"><small>Ou cole URL da capa:</small><input id="pCapaUrl" placeholder="https://..." oninput="capa_url_global = this.value"></div>
           </div>
         </div>
 
-        <!-- ARQUIVO PRINCIPAL -->
         <div class="linha-form">
           <div style="grid-column: 1 / -1;">
             <label>📄 Arquivo principal (PDF ou vídeo)</label>
@@ -430,31 +510,22 @@
               <input type="file" id="fileArquivo" accept=".pdf,video/*" onchange="subirArquivo(this.files[0])">
               <div class="icone">📎</div>
               <div class="txt">Clique ou arraste o PDF/vídeo aqui</div>
-              <div class="sub-txt">PDF, MP4, etc (até 50 MB)</div>
-              <div class="barra" id="barraArquivo"><div></div></div>
+              <div class="sub-txt">PDF, MP4, etc</div>
             </div>
-            <div class="campo-url">
-              <small>Ou cole uma URL de link externo (para vender sistemas como RG Pet):</small>
-              <input id="pArquivoUrl" placeholder="https://..." oninput="arquivo_url_global = this.value">
-            </div>
+            <div class="campo-url"><small>Ou cole URL de link externo (RG Pet, sistema):</small><input id="pArquivoUrl" placeholder="https://..." oninput="arquivo_url_global = this.value"></div>
           </div>
         </div>
 
-        <!-- PRÉVIAS -->
         <div class="linha-form">
           <div style="grid-column: 1 / -1;">
-            <label>🖼️ Imagens de prévia (aparecem em "Por dentro do material")</label>
+            <label>🖼️ Imagens de prévia (1 ou 2)</label>
             <div class="upload-box" id="boxPrevia" onclick="document.getElementById('filePrevia').click()">
               <input type="file" id="filePrevia" accept="image/*" multiple onchange="subirPrevias(this.files)">
               <div class="icone">🖼️</div>
-              <div class="txt">Clique ou arraste 1 ou 2 imagens aqui</div>
-              <div class="sub-txt">Aparecem para a cliente antes de comprar</div>
-              <div class="barra" id="barraPrevia"><div></div></div>
+              <div class="txt">Clique ou arraste 1 ou 2 imagens</div>
+              <div class="sub-txt">Aparecem antes de comprar</div>
             </div>
-            <div class="campo-url">
-              <small>Ou cole URLs separadas por vírgula (opcional):</small>
-              <input id="pPreviaUrl" placeholder="https://..., https://..." oninput="previas_urls_global = this.value.split(',').map(s=>s.trim()).filter(Boolean)">
-            </div>
+            <div class="campo-url"><small>Ou URLs separadas por vírgula:</small><input id="pPreviaUrl" placeholder="https://..., https://..." oninput="previas_urls_global = this.value.split(',').map(s=>s.trim()).filter(Boolean)"></div>
           </div>
         </div>
 
@@ -464,15 +535,14 @@
       <div class="lista" id="listaProds"></div>
     `;
 
-    // Ativar drag-and-drop nas 3 caixas
-    ativarDrag('boxCapa', 'fileCapa', (f) => subirCapa(f));
-    ativarDrag('boxArquivo', 'fileArquivo', (f) => subirArquivo(f));
-    ativarDrag('boxPrevia', 'filePrevia', (f) => subirPrevias([f]));
+    ativarDrag('boxCapa', (f) => subirCapa(f));
+    ativarDrag('boxArquivo', (f) => subirArquivo(f));
+    ativarDrag('boxPrevia', (f) => subirPrevias([f]));
 
     carregarProds();
   }
 
-  function ativarDrag(boxId, inputId, callback) {
+  function ativarDrag(boxId, callback) {
     const box = document.getElementById(boxId);
     ['dragenter','dragover'].forEach(ev => box.addEventListener(ev, e => {
       e.preventDefault(); e.stopPropagation(); box.classList.add('arrastando');
@@ -481,8 +551,7 @@
       e.preventDefault(); e.stopPropagation(); box.classList.remove('arrastando');
     }));
     box.addEventListener('drop', e => {
-      const files = e.dataTransfer.files;
-      if (files.length > 0) callback(files[0]);
+      if (e.dataTransfer.files.length > 0) callback(e.dataTransfer.files[0]);
     });
   }
 
@@ -493,15 +562,11 @@
     try {
       const url = await uploadArquivo(file, 'capas');
       capa_url_global = url;
-      box.innerHTML = `
-        <button class="remover" onclick="event.stopPropagation();removerCapa()">Remover</button>
-        <img class="preview" src="${url}" alt="Capa">
-        <div class="sub-txt" style="margin-top:6px;">✅ Capa enviada</div>
-      `;
+      box.innerHTML = `<button class="remover" onclick="event.stopPropagation();removerCapa()">Remover</button><img class="preview" src="${url}"><div class="sub-txt" style="margin-top:6px;">✅ Capa enviada</div>`;
       document.getElementById('pCapaUrl').value = '';
       toast('Capa enviada! ✅');
     } catch (e) {
-      box.innerHTML = '<div class="icone">❌</div><div class="txt">Erro no upload</div><div class="sub-txt">' + e.message + '</div>';
+      box.innerHTML = '<div class="icone">❌</div><div class="txt">Erro</div>';
       toast('Erro ao enviar capa.', true);
     }
   }
@@ -509,14 +574,8 @@
   function removerCapa() {
     capa_url_global = '';
     const box = document.getElementById('boxCapa');
-    box.innerHTML = `
-      <input type="file" id="fileCapa" accept="image/*" onchange="subirCapa(this.files[0])">
-      <div class="icone">📤</div>
-      <div class="txt">Clique ou arraste a imagem aqui</div>
-      <div class="sub-txt">JPG, PNG ou WEBP</div>
-      <div class="barra" id="barraCapa"><div></div></div>
-    `;
-    ativarDrag('boxCapa', 'fileCapa', (f) => subirCapa(f));
+    box.innerHTML = `<input type="file" id="fileCapa" accept="image/*" onchange="subirCapa(this.files[0])"><div class="icone">📤</div><div class="txt">Clique ou arraste a imagem aqui</div><div class="sub-txt">JPG, PNG ou WEBP</div>`;
+    ativarDrag('boxCapa', (f) => subirCapa(f));
   }
 
   async function subirArquivo(file) {
@@ -526,16 +585,11 @@
     try {
       const url = await uploadArquivo(file, 'produtos');
       arquivo_url_global = url;
-      box.innerHTML = `
-        <button class="remover" onclick="event.stopPropagation();removerArquivo()">Remover</button>
-        <div class="icone">✅</div>
-        <div class="txt">${file.name}</div>
-        <div class="sub-txt">${(file.size/1024/1024).toFixed(1)} MB • enviado</div>
-      `;
+      box.innerHTML = `<button class="remover" onclick="event.stopPropagation();removerArquivo()">Remover</button><div class="icone">✅</div><div class="txt">${file.name}</div><div class="sub-txt">${(file.size/1024/1024).toFixed(1)} MB</div>`;
       document.getElementById('pArquivoUrl').value = '';
       toast('Arquivo enviado! ✅');
     } catch (e) {
-      box.innerHTML = '<div class="icone">❌</div><div class="txt">Erro no upload</div><div class="sub-txt">' + e.message + '</div>';
+      box.innerHTML = '<div class="icone">❌</div><div class="txt">Erro</div>';
       toast('Erro ao enviar arquivo.', true);
     }
   }
@@ -543,53 +597,32 @@
   function removerArquivo() {
     arquivo_url_global = '';
     const box = document.getElementById('boxArquivo');
-    box.innerHTML = `
-      <input type="file" id="fileArquivo" accept=".pdf,video/*" onchange="subirArquivo(this.files[0])">
-      <div class="icone">📎</div>
-      <div class="txt">Clique ou arraste o PDF/vídeo aqui</div>
-      <div class="sub-txt">PDF, MP4, etc (até 50 MB)</div>
-      <div class="barra" id="barraArquivo"><div></div></div>
-    `;
-    ativarDrag('boxArquivo', 'fileArquivo', (f) => subirArquivo(f));
+    box.innerHTML = `<input type="file" id="fileArquivo" accept=".pdf,video/*" onchange="subirArquivo(this.files[0])"><div class="icone">📎</div><div class="txt">Clique ou arraste o PDF/vídeo aqui</div><div class="sub-txt">PDF, MP4, etc</div>`;
+    ativarDrag('boxArquivo', (f) => subirArquivo(f));
   }
 
   async function subirPrevias(files) {
     if (!files || !files.length) return;
     const box = document.getElementById('boxPrevia');
-    box.innerHTML = '<div class="icone">⏳</div><div class="txt">Enviando ' + files.length + ' imagem(ns)...</div>';
+    box.innerHTML = '<div class="icone">⏳</div><div class="txt">Enviando...</div>';
     try {
       const urls = [];
-      for (const f of files) {
-        const u = await uploadArquivo(f, 'capas');
-        urls.push(u);
-      }
+      for (const f of files) urls.push(await uploadArquivo(f, 'capas'));
       previas_urls_global = urls;
-      box.innerHTML = `
-        <button class="remover" onclick="event.stopPropagation();removerPrevias()">Remover</button>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-          ${urls.map(u => `<img class="preview" src="${u}" style="max-height:80px;margin:0;">`).join('')}
-        </div>
-        <div class="sub-txt" style="margin-top:6px;">✅ ${urls.length} imagem(ns) enviada(s)</div>
-      `;
+      box.innerHTML = `<button class="remover" onclick="event.stopPropagation();removerPrevias()">Remover</button><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">${urls.map(u => `<img class="preview" src="${u}" style="max-height:80px;margin:0;">`).join('')}</div>`;
       document.getElementById('pPreviaUrl').value = '';
       toast('Prévias enviadas! ✅');
     } catch (e) {
-      box.innerHTML = '<div class="icone">❌</div><div class="txt">Erro no upload</div>';
-      toast('Erro ao enviar prévias.', true);
+      box.innerHTML = '<div class="icone">❌</div><div class="txt">Erro</div>';
+      toast('Erro ao enviar.', true);
     }
   }
 
   function removerPrevias() {
     previas_urls_global = [];
     const box = document.getElementById('boxPrevia');
-    box.innerHTML = `
-      <input type="file" id="filePrevia" accept="image/*" multiple onchange="subirPrevias(this.files)">
-      <div class="icone">🖼️</div>
-      <div class="txt">Clique ou arraste 1 ou 2 imagens aqui</div>
-      <div class="sub-txt">Aparecem para a cliente antes de comprar</div>
-      <div class="barra" id="barraPrevia"><div></div></div>
-    `;
-    ativarDrag('boxPrevia', 'filePrevia', (f) => subirPrevias([f]));
+    box.innerHTML = `<input type="file" id="filePrevia" accept="image/*" multiple onchange="subirPrevias(this.files)"><div class="icone">🖼️</div><div class="txt">Clique ou arraste 1 ou 2 imagens</div><div class="sub-txt">Aparecem antes de comprar</div>`;
+    ativarDrag('boxPrevia', (f) => subirPrevias([f]));
   }
 
   async function carregarProds() {
@@ -606,8 +639,8 @@
             <div><div class="nome">${p.titulo}</div><div class="detalhe">${p.tipo.toUpperCase()} • ${preco}</div></div>
           </div>
           <div class="botoes">
-            <a class="btn-acao" href="produto.html?id=${p.id}" target="_blank">Ver</a>
-            <button class="btn-acao btn-excluir" onclick="excluirProduto('${p.id}')">Excluir</button>
+            <a class="btn-acao" href="produto.html?id=${p.id}" target="_blank">👁️ Ver</a>
+            <button class="btn-acao btn-excluir" onclick="excluirProduto('${p.id}')">🗑️ Excluir</button>
           </div>
         </div>
       `;
@@ -622,13 +655,12 @@
     const catId = document.getElementById('pCat').value;
     const descCurta = document.getElementById('pDescCurta').value.trim();
     const descLonga = document.getElementById('pDescLonga').value.trim();
-
     const capaFinal = capa_url_global || document.getElementById('pCapaUrl').value.trim();
     const arquivoFinal = arquivo_url_global || document.getElementById('pArquivoUrl').value.trim();
     const previaInput = document.getElementById('pPreviaUrl').value.trim();
     const previasFinal = previas_urls_global.length ? previas_urls_global.join(',') : previaInput;
 
-    if (!titulo) { toast('Digite o título do produto.', true); return; }
+    if (!titulo) { toast('Digite o título.', true); return; }
     if (!lojaId) { toast('Cadastre uma loja primeiro.', true); return; }
 
     const btn = document.getElementById('btnCriarProd');
@@ -668,7 +700,7 @@
     carregarProds();
   }
 
-  // ==== CLIENTES ====
+  // ===== CLIENTES =====
   async function renderClientes() {
     const c = document.getElementById('conteudo');
     c.innerHTML = '<h2>Clientes</h2><p class="sub">Quem se cadastrou no site</p><p>Carregando...</p>';
@@ -676,37 +708,85 @@
   }
 
   async function carregarClientes() {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/clientes?select=*&order=created_at.desc', { headers });
-    const lista = await res.json();
+    const [resClientes, resCompras] = await Promise.all([
+      fetch(SUPABASE_URL + '/rest/v1/clientes?select=*&order=created_at.desc', { headers }),
+      fetch(SUPABASE_URL + '/rest/v1/compras?select=user_id,status', { headers })
+    ]);
+    const lista = await resClientes.json();
+    const compras = await resCompras.json();
+
+    const clientesPagos = new Set(compras.filter(c => c.status === 'pago').map(c => c.user_id));
+
     const el = document.getElementById('conteudo');
     if (!lista.length) {
       el.innerHTML = '<h2>Clientes</h2><p class="sub">Quem se cadastrou no site</p><div class="vazio-lista">Nenhum cliente ainda.</div>';
       return;
     }
+
     el.innerHTML = `
       <h2>Clientes</h2>
       <p class="sub">Quem se cadastrou no site (${lista.length})</p>
       <div class="lista">
         ${lista.map(cl => {
           const zap = normalizarWhatsApp(cl.whatsapp);
-          const linkZap = zap ? `https://wa.me/${zap}` : '#';
+          const pendente = !clientesPagos.has(cl.id);
+          const primeiroNome = (cl.nome || '').split(' ')[0] || '';
+          const msg = encodeURIComponent(`Olá, ${primeiroNome}! Vi que você demonstrou interesse em um material do Ensino Fácil e não finalizou a compra. Posso te ajudar? 😊`);
+          const linkZap = zap ? `https://wa.me/${zap}?text=${msg}` : '';
           return `
-            <div class="item">
+            <div class="item ${pendente ? 'pendente' : ''}">
               <div class="esquerda">
                 <div class="capa-mini">👤</div>
                 <div>
-                  <div class="nome">${cl.nome || 'Sem nome'}</div>
+                  <div class="nome">
+                    ${cl.nome || 'Sem nome'}
+                    ${pendente ? '<span class="selo selo-pendente">⏳ Pendente</span>' : '<span class="selo selo-ok">✅ Ativo</span>'}
+                  </div>
                   <div class="detalhe">📧 ${cl.email || '-'} • 📱 ${cl.whatsapp || 'sem whatsapp'}</div>
                 </div>
               </div>
               <div class="botoes">
                 ${zap ? `<a class="btn-acao btn-zap" href="${linkZap}" target="_blank">💬 WhatsApp</a>` : ''}
+                <button class="btn-acao btn-editar" onclick="abrirModalCliente('${cl.id}')">✏️ Editar</button>
               </div>
             </div>
           `;
         }).join('')}
       </div>
     `;
+  }
+
+  let clientesCache = [];
+
+  async function abrirModalCliente(id) {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/clientes?id=eq.' + id, { headers });
+    const lista = await res.json();
+    if (!lista.length) { toast('Cliente não encontrado.', true); return; }
+    const cl = lista[0];
+    clienteEditando = cl;
+    document.getElementById('editNome').value = cl.nome || '';
+    document.getElementById('editZap').value = cl.whatsapp || '';
+    document.getElementById('editEmail').value = cl.email || '';
+    document.getElementById('modalCliente').classList.add('aberto');
+  }
+
+  function fecharModalCliente() {
+    document.getElementById('modalCliente').classList.remove('aberto');
+    clienteEditando = null;
+  }
+
+  async function salvarCliente() {
+    if (!clienteEditando) return;
+    const nome = document.getElementById('editNome').value.trim();
+    const zap = document.getElementById('editZap').value.trim();
+    await fetch(SUPABASE_URL + '/rest/v1/clientes?id=eq.' + clienteEditando.id, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify({ nome, whatsapp: zap })
+    });
+    toast('Cliente atualizado! ✅');
+    fecharModalCliente();
+    carregarClientes();
   }
 </script>
 
