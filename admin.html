@@ -8,7 +8,6 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: Arial, sans-serif; background: #F7F3EE; color: #3D2314; min-height: 100vh; }
 
-  /* LOGIN */
   #login { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(180deg, #FAF3E8 0%, #F0E2CC 100%); padding: 20px; }
   .login-card { background: #FAF3E8; border: 1px solid #E4D2B7; border-radius: 20px; padding: 40px 32px; width: 100%; max-width: 380px; box-shadow: 0 8px 24px -8px rgba(61,35,20,0.25); text-align: center; }
   .login-card h1 { font-family: 'Georgia', serif; font-size: 26px; margin-bottom: 6px; }
@@ -18,7 +17,6 @@
   .login-card button { width: 100%; padding: 14px; background: #6B4423; color: #FAF3E8; border: none; border-radius: 999px; font-size: 15px; font-weight: bold; cursor: pointer; font-family: 'Georgia', serif; }
   .login-card .erro { color: #C62828; font-size: 13px; margin-top: 10px; display: none; }
 
-  /* PAINEL */
   #painel { display: none; }
   .topo { background: #1F2A2E; color: #FAF3E8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
   .topo .logo { font-family: 'Georgia', serif; font-size: 20px; font-weight: bold; }
@@ -39,11 +37,13 @@
   .conteudo .sub { color: #8B5E3C; font-size: 14px; margin-bottom: 24px; }
 
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 30px; }
-  .card-stat { background: #FFFFFF; border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.12); border-left: 4px solid #C9A961; }
+  .card-stat { background: #FFFFFF; border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.12); border-left: 4px solid #C9A961; cursor: pointer; transition: all 0.2s; }
+  .card-stat:hover { transform: translateY(-3px); box-shadow: 0 8px 20px -6px rgba(61,35,20,0.25); }
   .card-stat.pendente { border-left-color: #FFC107; }
   .card-stat.vendas { border-left-color: #4CAF50; }
   .card-stat .label { font-size: 12px; color: #8B5E3C; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
   .card-stat .valor { font-size: 26px; font-weight: bold; color: #3D2314; }
+  .card-stat .ver { font-size: 11px; color: #8B5E3C; margin-top: 6px; }
 
   .formulario { background: #FFFFFF; border-radius: 14px; padding: 24px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.12); margin-bottom: 24px; }
   .formulario h3 { font-family: 'Georgia', serif; font-size: 18px; margin-bottom: 16px; }
@@ -56,12 +56,10 @@
   .btn-primario:hover { background: #3D2314; }
   .btn-primario:disabled { background: #C9A961; cursor: wait; }
 
-  /* Emojis rápidos */
   .emoji-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .emoji-picker span { cursor: pointer; font-size: 22px; padding: 4px 8px; border-radius: 8px; border: 1px solid #E4D2B7; background: #FFF; transition: all 0.15s; }
   .emoji-picker span:hover { background: #F0E2CC; transform: scale(1.1); }
 
-  /* Upload */
   .upload-box { border: 2px dashed #C9A961; border-radius: 12px; padding: 20px; text-align: center; background: #FFFDF8; cursor: pointer; transition: all 0.2s; position: relative; min-height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .upload-box:hover, .upload-box.arrastando { background: #FAF3E8; border-color: #6B4423; }
   .upload-box .icone { font-size: 28px; margin-bottom: 6px; }
@@ -75,7 +73,6 @@
   .campo-url input { font-size: 12px; background: #F7F3EE; }
   .campo-url small { font-size: 11px; color: #8B5E3C; }
 
-  /* Lista */
   .lista { display: grid; gap: 12px; }
   .item { background: #FFFFFF; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px -2px rgba(61,35,20,0.10); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
   .item.pendente { border-left: 4px solid #FFC107; }
@@ -101,7 +98,6 @@
   .vazio-lista { text-align: center; padding: 40px; color: #8B5E3C; background: #FFFFFF; border-radius: 12px; font-size: 14px; border: 2px dashed #E4D2B7; }
   .aviso { padding: 12px 16px; background: #FFF8E1; border: 1px solid #FFE082; color: #7A5C00; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
 
-  /* Modal */
   .modal-fundo { position: fixed; inset: 0; background: rgba(20,10,5,0.7); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-fundo.aberto { display: flex; }
   .modal { background: #FFF; border-radius: 16px; padding: 28px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
@@ -116,20 +112,9 @@
   .toast { position: fixed; bottom: 20px; right: 20px; left: 20px; max-width: 340px; margin-left: auto; background: #2E7D32; color: #FFF; padding: 14px 22px; border-radius: 10px; font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 9999; display: none; }
   .toast.erro { background: #C62828; }
 
-  /* ===== MOBILE ===== */
   @media (max-width: 800px) {
     .layout { grid-template-columns: 1fr; }
-    .menu-lateral {
-      position: fixed;
-      top: 56px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 90;
-      transform: translateX(-100%);
-      transition: transform 0.3s;
-      overflow-y: auto;
-    }
+    .menu-lateral { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 90; transform: translateX(-100%); transition: transform 0.3s; overflow-y: auto; }
     .menu-lateral.aberto { transform: translateX(0); }
     .btn-menu { display: inline-flex; }
     .conteudo { padding: 20px 16px; }
@@ -179,7 +164,6 @@
   </div>
 </div>
 
-<!-- MODAL EDITAR CLIENTE -->
 <div class="modal-fundo" id="modalCliente">
   <div class="modal">
     <h3>✏️ Editar cliente</h3>
@@ -212,8 +196,8 @@
 
   let secaoAtual = 'dashboard';
   let clienteEditando = null;
+  let filtroClientes = 'todos';
 
-  // ===== HELPERS =====
   function toast(msg, erro) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -248,10 +232,7 @@
       },
       body: file
     });
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error('Falha no upload: ' + err);
-    }
+    if (!res.ok) throw new Error('Falha no upload: ' + await res.text());
     return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${nome}`;
   }
 
@@ -276,7 +257,6 @@
   }
   if (localStorage.getItem('ef_admin') === 'ok') abrirPainel();
 
-  // ===== NAVEGAÇÃO =====
   document.querySelectorAll('.menu-lateral a').forEach(link => {
     link.addEventListener('click', () => {
       navegar(link.dataset.secao);
@@ -284,10 +264,12 @@
     });
   });
 
-  function navegar(secao) {
+  function navegar(secao, filtro) {
     secaoAtual = secao;
+    if (filtro) filtroClientes = filtro;
     document.querySelectorAll('.menu-lateral a').forEach(a => a.classList.remove('ativo'));
-    document.querySelector(`[data-secao="${secao}"]`).classList.add('ativo');
+    const link = document.querySelector(`[data-secao="${secao}"]`);
+    if (link) link.classList.add('ativo');
     if (secao === 'dashboard') renderDashboard();
     if (secao === 'categorias') renderCategorias();
     if (secao === 'lojas') renderLojas();
@@ -295,7 +277,7 @@
     if (secao === 'clientes') renderClientes();
   }
 
-  // ===== DASHBOARD =====
+  // ===== DASHBOARD (agora com cards clicáveis) =====
   async function renderDashboard() {
     const c = document.getElementById('conteudo');
     c.innerHTML = '<h2>Painel</h2><p class="sub">Visão geral do Ensino Fácil</p><p>Carregando...</p>';
@@ -310,16 +292,40 @@
       ]);
       c.innerHTML = `
         <h2>Painel</h2>
-        <p class="sub">Visão geral do Ensino Fácil</p>
+        <p class="sub">Clique em qualquer card pra ir direto à seção 👇</p>
         <div class="cards">
-          <div class="card-stat"><div class="label">Categorias</div><div class="valor">${cats.length}</div></div>
-          <div class="card-stat"><div class="label">Lojas</div><div class="valor">${lojas.length}</div></div>
-          <div class="card-stat"><div class="label">Produtos</div><div class="valor">${prods.length}</div></div>
-          <div class="card-stat"><div class="label">Clientes</div><div class="valor">${clientes.length}</div></div>
-          <div class="card-stat vendas"><div class="label">Vendas</div><div class="valor">${vendas.length}</div></div>
-          <div class="card-stat pendente"><div class="label">⏳ Pendentes</div><div class="valor">${pendentes.length}</div></div>
+          <div class="card-stat" onclick="navegar('categorias')">
+            <div class="label">Categorias</div>
+            <div class="valor">${cats.length}</div>
+            <div class="ver">ver todas →</div>
+          </div>
+          <div class="card-stat" onclick="navegar('lojas')">
+            <div class="label">Lojas</div>
+            <div class="valor">${lojas.length}</div>
+            <div class="ver">ver todas →</div>
+          </div>
+          <div class="card-stat" onclick="navegar('produtos')">
+            <div class="label">Produtos</div>
+            <div class="valor">${prods.length}</div>
+            <div class="ver">ver todos →</div>
+          </div>
+          <div class="card-stat" onclick="navegar('clientes', 'todos')">
+            <div class="label">Clientes</div>
+            <div class="valor">${clientes.length}</div>
+            <div class="ver">ver todos →</div>
+          </div>
+          <div class="card-stat vendas" onclick="navegar('clientes', 'todos')">
+            <div class="label">✅ Vendas pagas</div>
+            <div class="valor">${vendas.length}</div>
+            <div class="ver">ver clientes →</div>
+          </div>
+          <div class="card-stat pendente" onclick="navegar('clientes', 'pendentes')">
+            <div class="label">⏳ Pendentes</div>
+            <div class="valor">${pendentes.length}</div>
+            <div class="ver">ver pendentes →</div>
+          </div>
         </div>
-        <div class="aviso">💡 <b>Dica:</b> os "pendentes" são clientes que começaram a comprar e não finalizaram. Vá em <b>Clientes</b> pra ver e mandar WhatsApp.</div>
+        <div class="aviso">💡 <b>Dica:</b> clique no card <b>⏳ Pendentes</b> pra ver só quem começou a comprar e não finalizou. Aí é só mandar WhatsApp.</div>
       `;
     } catch (e) { c.innerHTML = '<p>Erro ao carregar.</p>'; }
   }
@@ -340,9 +346,7 @@
         </div>
         <label>Emoji (clique num abaixo ou digite)</label>
         <input id="catEmoji" placeholder="Ex: 🧁" maxlength="4" style="max-width:120px;">
-        <div class="emoji-picker" id="emojiPicker">
-          ${EMOJIS_RAPIDOS.map(e => `<span onclick="document.getElementById('catEmoji').value='${e}'">${e}</span>`).join('')}
-        </div>
+        <div class="emoji-picker">${EMOJIS_RAPIDOS.map(e => `<span onclick="document.getElementById('catEmoji').value='${e}'">${e}</span>`).join('')}</div>
         <div style="margin-top:16px;"><button class="btn-primario" onclick="criarCategoria()">Criar categoria</button></div>
       </div>
       <div class="lista" id="listaCats"></div>
@@ -361,7 +365,7 @@
           <div class="capa-mini">${cat.emoji || '📚'}</div>
           <div><div class="nome">${cat.nome}</div><div class="detalhe">slug: ${cat.slug} • ordem: ${cat.ordem}</div></div>
         </div>
-        <div class="botoes"><button class="btn-acao btn-excluir" onclick="excluirCategoria('${cat.id}')">Excluir</button></div>
+        <div class="botoes"><button class="btn-acao btn-excluir" onclick="excluirCategoria('${cat.id}')">🗑️ Excluir</button></div>
       </div>
     `).join('');
   }
@@ -419,7 +423,7 @@
           <div class="capa-mini">🏪</div>
           <div><div class="nome">${l.nome}</div><div class="detalhe">${l.descricao || 'sem descrição'}</div></div>
         </div>
-        <div class="botoes"><button class="btn-acao btn-excluir" onclick="excluirLoja('${l.id}')">Excluir</button></div>
+        <div class="botoes"><button class="btn-acao btn-excluir" onclick="excluirLoja('${l.id}')">🗑️ Excluir</button></div>
       </div>
     `).join('');
   }
@@ -464,7 +468,6 @@
     c.innerHTML = `
       <h2>Produtos</h2>
       <p class="sub">E-books, videoaulas, links e sistemas</p>
-
       <div class="formulario">
         <h3>Novo produto</h3>
         <div class="linha-form">
@@ -489,7 +492,6 @@
         <div class="linha-form">
           <div style="grid-column: 1 / -1;"><label>Descrição completa (opcional)</label><textarea id="pDescLonga"></textarea></div>
         </div>
-
         <div class="linha-form">
           <div style="grid-column: 1 / -1;">
             <label>🖼️ Capa do produto</label>
@@ -502,7 +504,6 @@
             <div class="campo-url"><small>Ou cole URL da capa:</small><input id="pCapaUrl" placeholder="https://..." oninput="capa_url_global = this.value"></div>
           </div>
         </div>
-
         <div class="linha-form">
           <div style="grid-column: 1 / -1;">
             <label>📄 Arquivo principal (PDF ou vídeo)</label>
@@ -512,10 +513,9 @@
               <div class="txt">Clique ou arraste o PDF/vídeo aqui</div>
               <div class="sub-txt">PDF, MP4, etc</div>
             </div>
-            <div class="campo-url"><small>Ou cole URL de link externo (RG Pet, sistema):</small><input id="pArquivoUrl" placeholder="https://..." oninput="arquivo_url_global = this.value"></div>
+            <div class="campo-url"><small>Ou cole URL de link externo:</small><input id="pArquivoUrl" placeholder="https://..." oninput="arquivo_url_global = this.value"></div>
           </div>
         </div>
-
         <div class="linha-form">
           <div style="grid-column: 1 / -1;">
             <label>🖼️ Imagens de prévia (1 ou 2)</label>
@@ -528,31 +528,22 @@
             <div class="campo-url"><small>Ou URLs separadas por vírgula:</small><input id="pPreviaUrl" placeholder="https://..., https://..." oninput="previas_urls_global = this.value.split(',').map(s=>s.trim()).filter(Boolean)"></div>
           </div>
         </div>
-
         <button class="btn-primario" id="btnCriarProd" onclick="criarProduto()">Criar produto</button>
       </div>
-
       <div class="lista" id="listaProds"></div>
     `;
 
     ativarDrag('boxCapa', (f) => subirCapa(f));
     ativarDrag('boxArquivo', (f) => subirArquivo(f));
     ativarDrag('boxPrevia', (f) => subirPrevias([f]));
-
     carregarProds();
   }
 
   function ativarDrag(boxId, callback) {
     const box = document.getElementById(boxId);
-    ['dragenter','dragover'].forEach(ev => box.addEventListener(ev, e => {
-      e.preventDefault(); e.stopPropagation(); box.classList.add('arrastando');
-    }));
-    ['dragleave','drop'].forEach(ev => box.addEventListener(ev, e => {
-      e.preventDefault(); e.stopPropagation(); box.classList.remove('arrastando');
-    }));
-    box.addEventListener('drop', e => {
-      if (e.dataTransfer.files.length > 0) callback(e.dataTransfer.files[0]);
-    });
+    ['dragenter','dragover'].forEach(ev => box.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); box.classList.add('arrastando'); }));
+    ['dragleave','drop'].forEach(ev => box.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); box.classList.remove('arrastando'); }));
+    box.addEventListener('drop', e => { if (e.dataTransfer.files.length > 0) callback(e.dataTransfer.files[0]); });
   }
 
   async function subirCapa(file) {
@@ -672,17 +663,11 @@
         method: 'POST',
         headers,
         body: JSON.stringify({
-          titulo,
-          loja_id: lojaId,
-          categoria_id: catId || null,
-          preco_cents: Math.round(preco * 100),
-          tipo,
-          descricao_curta: descCurta,
-          descricao_longa: descLonga,
-          capa_url: capaFinal || null,
-          arquivo_url: arquivoFinal || null,
-          preview_urls: previasFinal || null,
-          ativo: true
+          titulo, loja_id: lojaId, categoria_id: catId || null,
+          preco_cents: Math.round(preco * 100), tipo,
+          descricao_curta: descCurta, descricao_longa: descLonga,
+          capa_url: capaFinal || null, arquivo_url: arquivoFinal || null,
+          preview_urls: previasFinal || null, ativo: true
         })
       });
       toast('Produto criado! ✅');
@@ -714,7 +699,6 @@
     ]);
     const lista = await resClientes.json();
     const compras = await resCompras.json();
-
     const clientesPagos = new Set(compras.filter(c => c.status === 'pago').map(c => c.user_id));
 
     const el = document.getElementById('conteudo');
@@ -723,11 +707,20 @@
       return;
     }
 
+    const pendentes = lista.filter(cl => !clientesPagos.has(cl.id));
+    const ativos = lista.filter(cl => clientesPagos.has(cl.id));
+    const exibir = filtroClientes === 'pendentes' ? pendentes : (filtroClientes === 'ativos' ? ativos : lista);
+
     el.innerHTML = `
       <h2>Clientes</h2>
       <p class="sub">Quem se cadastrou no site (${lista.length})</p>
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <button class="btn-acao ${filtroClientes==='todos'?'btn-editar':''}" onclick="filtroClientes='todos';renderClientes()">👥 Todos (${lista.length})</button>
+        <button class="btn-acao ${filtroClientes==='pendentes'?'btn-editar':''}" onclick="filtroClientes='pendentes';renderClientes()">⏳ Pendentes (${pendentes.length})</button>
+        <button class="btn-acao ${filtroClientes==='ativos'?'btn-editar':''}" onclick="filtroClientes='ativos';renderClientes()">✅ Ativos (${ativos.length})</button>
+      </div>
       <div class="lista">
-        ${lista.map(cl => {
+        ${exibir.length === 0 ? '<div class="vazio-lista">Nenhum cliente nesse filtro.</div>' : exibir.map(cl => {
           const zap = normalizarWhatsApp(cl.whatsapp);
           const pendente = !clientesPagos.has(cl.id);
           const primeiroNome = (cl.nome || '').split(' ')[0] || '';
@@ -756,8 +749,6 @@
     `;
   }
 
-  let clientesCache = [];
-
   async function abrirModalCliente(id) {
     const res = await fetch(SUPABASE_URL + '/rest/v1/clientes?id=eq.' + id, { headers });
     const lista = await res.json();
@@ -780,9 +771,7 @@
     const nome = document.getElementById('editNome').value.trim();
     const zap = document.getElementById('editZap').value.trim();
     await fetch(SUPABASE_URL + '/rest/v1/clientes?id=eq.' + clienteEditando.id, {
-      method: 'PATCH',
-      headers,
-      body: JSON.stringify({ nome, whatsapp: zap })
+      method: 'PATCH', headers, body: JSON.stringify({ nome, whatsapp: zap })
     });
     toast('Cliente atualizado! ✅');
     fecharModalCliente();
