@@ -149,7 +149,8 @@
   <div class="topo">
     <div class="logo">📖 Ensino <span>Fácil</span> — ADM</div>
     <div class="dir">
-      <a href="index.html" class="btn-voltar">← Voltar ao site</a>
+      <button class="btn-voltar" onclick="voltar()">← Voltar</button>
+      <a href="index.html">🏠 Ver site</a>
       <button class="btn-menu" onclick="toggleMenu()">☰</button>
       <button onclick="sair()">Sair</button>
     </div>
@@ -221,6 +222,18 @@
 
   function toggleMenu() {
     document.getElementById('menuLateral').classList.toggle('aberto');
+  }
+
+  // BOTÃO VOLTAR INTELIGENTE
+  function voltar() {
+    if (secaoAtual === 'dashboard') {
+      // Se já está no dashboard, vai pro site
+      window.location.href = 'index.html';
+    } else {
+      // Se está em outra seção, volta pro dashboard
+      navegar('dashboard');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   async function uploadArquivo(file, bucket) {
