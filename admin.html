@@ -18,12 +18,14 @@
   .login-card .erro { color: #C62828; font-size: 13px; margin-top: 10px; display: none; }
 
   #painel { display: none; }
-  .topo { background: #1F2A2E; color: #FAF3E8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-  .topo .logo { font-family: 'Georgia', serif; font-size: 20px; font-weight: bold; }
+  .topo { background: #1F2A2E; color: #FAF3E8; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; gap: 10px; flex-wrap: wrap; }
+  .topo .logo { font-family: 'Georgia', serif; font-size: 18px; font-weight: bold; }
   .topo .logo span { color: #C9A961; }
-  .topo .dir { display: flex; gap: 8px; align-items: center; }
-  .topo button { background: transparent; border: 1px solid #FAF3E8; color: #FAF3E8; padding: 8px 16px; border-radius: 999px; cursor: pointer; font-size: 13px; }
-  .topo button:hover { background: #FAF3E8; color: #1F2A2E; }
+  .topo .dir { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .topo a, .topo button { background: transparent; border: 1px solid #FAF3E8; color: #FAF3E8; padding: 8px 14px; border-radius: 999px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-family: Arial, sans-serif; }
+  .topo a:hover, .topo button:hover { background: #FAF3E8; color: #1F2A2E; }
+  .topo .btn-voltar { background: #C9A961; border-color: #C9A961; color: #1F2A2E; font-weight: bold; }
+  .topo .btn-voltar:hover { background: #E4D2B7; border-color: #E4D2B7; }
   .btn-menu { display: none; }
 
   .layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
@@ -119,8 +121,9 @@
     .btn-menu { display: inline-flex; }
     .conteudo { padding: 20px 16px; }
     .conteudo h2 { font-size: 22px; }
-    .topo { padding: 12px 16px; }
-    .topo .logo { font-size: 17px; }
+    .topo { padding: 10px 12px; }
+    .topo .logo { font-size: 15px; }
+    .topo a, .topo button { padding: 7px 12px; font-size: 12px; }
     .card-stat .valor { font-size: 22px; }
     .cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .formulario { padding: 18px; }
@@ -146,6 +149,7 @@
   <div class="topo">
     <div class="logo">📖 Ensino <span>Fácil</span> — ADM</div>
     <div class="dir">
+      <a href="index.html" class="btn-voltar">← Voltar ao site</a>
       <button class="btn-menu" onclick="toggleMenu()">☰</button>
       <button onclick="sair()">Sair</button>
     </div>
@@ -236,7 +240,6 @@
     return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${nome}`;
   }
 
-  // ===== LOGIN =====
   function entrar() {
     const senha = document.getElementById('senhaInput').value;
     if (senha === SENHA) {
@@ -277,7 +280,6 @@
     if (secao === 'clientes') renderClientes();
   }
 
-  // ===== DASHBOARD (agora com cards clicáveis) =====
   async function renderDashboard() {
     const c = document.getElementById('conteudo');
     c.innerHTML = '<h2>Painel</h2><p class="sub">Visão geral do Ensino Fácil</p><p>Carregando...</p>';
@@ -295,42 +297,29 @@
         <p class="sub">Clique em qualquer card pra ir direto à seção 👇</p>
         <div class="cards">
           <div class="card-stat" onclick="navegar('categorias')">
-            <div class="label">Categorias</div>
-            <div class="valor">${cats.length}</div>
-            <div class="ver">ver todas →</div>
+            <div class="label">Categorias</div><div class="valor">${cats.length}</div><div class="ver">ver todas →</div>
           </div>
           <div class="card-stat" onclick="navegar('lojas')">
-            <div class="label">Lojas</div>
-            <div class="valor">${lojas.length}</div>
-            <div class="ver">ver todas →</div>
+            <div class="label">Lojas</div><div class="valor">${lojas.length}</div><div class="ver">ver todas →</div>
           </div>
           <div class="card-stat" onclick="navegar('produtos')">
-            <div class="label">Produtos</div>
-            <div class="valor">${prods.length}</div>
-            <div class="ver">ver todos →</div>
+            <div class="label">Produtos</div><div class="valor">${prods.length}</div><div class="ver">ver todos →</div>
           </div>
           <div class="card-stat" onclick="navegar('clientes', 'todos')">
-            <div class="label">Clientes</div>
-            <div class="valor">${clientes.length}</div>
-            <div class="ver">ver todos →</div>
+            <div class="label">Clientes</div><div class="valor">${clientes.length}</div><div class="ver">ver todos →</div>
           </div>
           <div class="card-stat vendas" onclick="navegar('clientes', 'todos')">
-            <div class="label">✅ Vendas pagas</div>
-            <div class="valor">${vendas.length}</div>
-            <div class="ver">ver clientes →</div>
+            <div class="label">✅ Vendas pagas</div><div class="valor">${vendas.length}</div><div class="ver">ver clientes →</div>
           </div>
           <div class="card-stat pendente" onclick="navegar('clientes', 'pendentes')">
-            <div class="label">⏳ Pendentes</div>
-            <div class="valor">${pendentes.length}</div>
-            <div class="ver">ver pendentes →</div>
+            <div class="label">⏳ Pendentes</div><div class="valor">${pendentes.length}</div><div class="ver">ver pendentes →</div>
           </div>
         </div>
-        <div class="aviso">💡 <b>Dica:</b> clique no card <b>⏳ Pendentes</b> pra ver só quem começou a comprar e não finalizou. Aí é só mandar WhatsApp.</div>
+        <div class="aviso">💡 <b>Dica:</b> clique no card <b>⏳ Pendentes</b> pra ver só quem começou a comprar e não finalizou.</div>
       `;
     } catch (e) { c.innerHTML = '<p>Erro ao carregar.</p>'; }
   }
 
-  // ===== CATEGORIAS =====
   const EMOJIS_RAPIDOS = ['🧁','🍰','🍫','🍪','🐶','🐱','🐾','👗','👠','💄','📚','🎓','💻','📱','🎬','🎨','🏋️','🍳','🍕','🧵','🎵','⚙️','🔧','💡'];
 
   async function renderCategorias() {
@@ -389,7 +378,6 @@
     carregarCats();
   }
 
-  // ===== LOJAS =====
   async function renderLojas() {
     const c = document.getElementById('conteudo');
     const cats = await fetch(SUPABASE_URL + '/rest/v1/categorias?select=*', { headers }).then(r => r.json());
@@ -449,7 +437,6 @@
     carregarLojas();
   }
 
-  // ===== PRODUTOS =====
   let capa_url_global = '';
   let arquivo_url_global = '';
   let previas_urls_global = [];
@@ -460,11 +447,7 @@
       fetch(SUPABASE_URL + '/rest/v1/lojas?select=*', { headers }).then(r => r.json()),
       fetch(SUPABASE_URL + '/rest/v1/categorias?select=*', { headers }).then(r => r.json())
     ]);
-
-    capa_url_global = '';
-    arquivo_url_global = '';
-    previas_urls_global = [];
-
+    capa_url_global = ''; arquivo_url_global = ''; previas_urls_global = [];
     c.innerHTML = `
       <h2>Produtos</h2>
       <p class="sub">E-books, videoaulas, links e sistemas</p>
@@ -497,9 +480,7 @@
             <label>🖼️ Capa do produto</label>
             <div class="upload-box" id="boxCapa" onclick="document.getElementById('fileCapa').click()">
               <input type="file" id="fileCapa" accept="image/*" onchange="subirCapa(this.files[0])">
-              <div class="icone">📤</div>
-              <div class="txt">Clique ou arraste a imagem aqui</div>
-              <div class="sub-txt">JPG, PNG ou WEBP</div>
+              <div class="icone">📤</div><div class="txt">Clique ou arraste a imagem aqui</div><div class="sub-txt">JPG, PNG ou WEBP</div>
             </div>
             <div class="campo-url"><small>Ou cole URL da capa:</small><input id="pCapaUrl" placeholder="https://..." oninput="capa_url_global = this.value"></div>
           </div>
@@ -509,9 +490,7 @@
             <label>📄 Arquivo principal (PDF ou vídeo)</label>
             <div class="upload-box" id="boxArquivo" onclick="document.getElementById('fileArquivo').click()">
               <input type="file" id="fileArquivo" accept=".pdf,video/*" onchange="subirArquivo(this.files[0])">
-              <div class="icone">📎</div>
-              <div class="txt">Clique ou arraste o PDF/vídeo aqui</div>
-              <div class="sub-txt">PDF, MP4, etc</div>
+              <div class="icone">📎</div><div class="txt">Clique ou arraste o PDF/vídeo aqui</div><div class="sub-txt">PDF, MP4, etc</div>
             </div>
             <div class="campo-url"><small>Ou cole URL de link externo:</small><input id="pArquivoUrl" placeholder="https://..." oninput="arquivo_url_global = this.value"></div>
           </div>
@@ -521,9 +500,7 @@
             <label>🖼️ Imagens de prévia (1 ou 2)</label>
             <div class="upload-box" id="boxPrevia" onclick="document.getElementById('filePrevia').click()">
               <input type="file" id="filePrevia" accept="image/*" multiple onchange="subirPrevias(this.files)">
-              <div class="icone">🖼️</div>
-              <div class="txt">Clique ou arraste 1 ou 2 imagens</div>
-              <div class="sub-txt">Aparecem antes de comprar</div>
+              <div class="icone">🖼️</div><div class="txt">Clique ou arraste 1 ou 2 imagens</div><div class="sub-txt">Aparecem antes de comprar</div>
             </div>
             <div class="campo-url"><small>Ou URLs separadas por vírgula:</small><input id="pPreviaUrl" placeholder="https://..., https://..." oninput="previas_urls_global = this.value.split(',').map(s=>s.trim()).filter(Boolean)"></div>
           </div>
@@ -532,7 +509,6 @@
       </div>
       <div class="lista" id="listaProds"></div>
     `;
-
     ativarDrag('boxCapa', (f) => subirCapa(f));
     ativarDrag('boxArquivo', (f) => subirArquivo(f));
     ativarDrag('boxPrevia', (f) => subirPrevias([f]));
@@ -650,18 +626,13 @@
     const arquivoFinal = arquivo_url_global || document.getElementById('pArquivoUrl').value.trim();
     const previaInput = document.getElementById('pPreviaUrl').value.trim();
     const previasFinal = previas_urls_global.length ? previas_urls_global.join(',') : previaInput;
-
     if (!titulo) { toast('Digite o título.', true); return; }
     if (!lojaId) { toast('Cadastre uma loja primeiro.', true); return; }
-
     const btn = document.getElementById('btnCriarProd');
-    btn.disabled = true;
-    btn.textContent = 'Criando...';
-
+    btn.disabled = true; btn.textContent = 'Criando...';
     try {
       await fetch(SUPABASE_URL + '/rest/v1/produtos', {
-        method: 'POST',
-        headers,
+        method: 'POST', headers,
         body: JSON.stringify({
           titulo, loja_id: lojaId, categoria_id: catId || null,
           preco_cents: Math.round(preco * 100), tipo,
@@ -674,8 +645,7 @@
       renderProdutos();
     } catch (e) {
       toast('Erro ao criar produto.', true);
-      btn.disabled = false;
-      btn.textContent = 'Criar produto';
+      btn.disabled = false; btn.textContent = 'Criar produto';
     }
   }
 
@@ -685,7 +655,6 @@
     carregarProds();
   }
 
-  // ===== CLIENTES =====
   async function renderClientes() {
     const c = document.getElementById('conteudo');
     c.innerHTML = '<h2>Clientes</h2><p class="sub">Quem se cadastrou no site</p><p>Carregando...</p>';
@@ -700,17 +669,14 @@
     const lista = await resClientes.json();
     const compras = await resCompras.json();
     const clientesPagos = new Set(compras.filter(c => c.status === 'pago').map(c => c.user_id));
-
     const el = document.getElementById('conteudo');
     if (!lista.length) {
       el.innerHTML = '<h2>Clientes</h2><p class="sub">Quem se cadastrou no site</p><div class="vazio-lista">Nenhum cliente ainda.</div>';
       return;
     }
-
     const pendentes = lista.filter(cl => !clientesPagos.has(cl.id));
     const ativos = lista.filter(cl => clientesPagos.has(cl.id));
     const exibir = filtroClientes === 'pendentes' ? pendentes : (filtroClientes === 'ativos' ? ativos : lista);
-
     el.innerHTML = `
       <h2>Clientes</h2>
       <p class="sub">Quem se cadastrou no site (${lista.length})</p>
