@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Conta - Ensino Fácil</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; background: linear-gradient(180deg, #FAF3E8 0%, #F0E2CC 100%); color: #3D2314; min-height: 100vh; }
+
+  header { background: rgba(250, 243, 232, 0.9); backdrop-filter: blur(8px); border-bottom: 1px solid #E4D2B7; padding: 14px 20px; position: sticky; top: 0; z-index: 40; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .logo { font-size: 22px; font-weight: bold; color: #3D2314; text-decoration: none; }
+  .logo span { color: #8B5E3C; }
+  .menu { display: flex; gap: 10px; align-items: center; font-family: Arial, sans-serif; flex-wrap: wrap; }
+  .menu a, .menu button { text-decoration: none; font-size: 13px; padding: 10px 18px; border-radius: 999px; cursor: pointer; transition: all 0.2s; border: none; font-family: Arial, sans-serif; }
+  .btn-estante { background: #C9A961; color: #FAF3E8; font-weight: bold; }
+  .btn-estante:hover { background: #8B5E3C; }
+  .btn-sair { background: transparent; border: 1px solid #8B5E3C !important; color: #8B5E3C; }
+  .btn-sair:hover { background: #8B5E3C; color: #FAF3E8; }
+  .btn-entrar { background: #6B4423; color: #FAF3E8; font-weight: bold; }
+
+  main { max-width: 700px; margin: 0 auto; padding: 30px 20px 60px; }
+  .voltar { display: inline-block; margin-bottom: 24px; color: #8B5E3C; text-decoration: none; font-family: Arial, sans-serif; font-size: 14px; }
+  .voltar:hover { color: #3D2314; }
+
+  .card { background: #FFFFFF; border-radius: 20px; padding: 32px; box-shadow: 0 8px 24px -8px rgba(61,35,20,0.25); margin-bottom: 20px; }
+  .card h2 { font-size: 26px; margin-bottom: 6px; }
+  .card .sub { font-family: Arial, sans-serif; font-size: 14px; color: #8B5E3C; margin-bottom: 26px; }
+
+  /* FOTO DE PERFIL */
+  .area-foto { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+  .foto-wrapper { position: relative; width: 130px; height: 130px; cursor: pointer; }
+  .foto { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #E4D2B7 0%, #C9A961 100%); display: flex; align-items: center; justify-content: center; font-size: 56px; color: #FAF3E8; overflow: hidden; border: 4px solid #FAF3E8; box-shadow: 0 4px 16px rgba(61,35,20,0.25); transition: all 0.2s; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+  .foto-wrapper:hover .foto { box-shadow: 0 6px 22px rgba(61,35,20,0.35); }
+  .foto-wrapper .icone-camera { position: absolute; bottom: 4px; right: 4px; width: 40px; height: 40px; background: #6B4423; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FAF3E8; font-size: 18px; border: 3px solid #FFFFFF; }
+  .foto-info { font-family: Arial, sans-serif; font-size: 12px; color: #8B5E3C; margin-top: 12px; text-align: center; }
+  #inputFoto { display: none; }
+
+  /* CAMPOS */
+  .campo { margin-bottom: 18px; }
+  .campo label { display: block; font-family: Arial, sans-serif; font-size: 13px; color: #6B4423; margin-bottom: 6px; font-weight: bold; }
+  .campo input { width: 100%; padding: 14px 16px; border: 1px solid #E4D2B7; border-radius: 12px; background: #FFFFFF; font-size: 15px; font-family: Arial, sans-serif; color: #3D2314; outline: none; transition: border 0.2s; }
+  .campo input:focus { border-color: #C9A961; }
+  .campo input:disabled { background: #F7F3EE; color: #8B5E3C; cursor: not-allowed; }
+  .campo .ajuda { font-size: 11px; color: #8B5E3C; margin-top: 4px; font-family: Arial, sans-serif; }
+
+  .btn { padding: 14px 30px; background: #6B4423; color: #FAF3E8; border: none; border-radius: 999px; font-size: 15px; font-weight: bold; cursor: pointer; font-family: 'Georgia', serif; transition: all 0.2s; }
+  .btn:hover:not(:disabled) { background: #3D2314; }
+  .btn:disabled { background: #C9A961; cursor: wait; }
+  .btn-secundario { background: #F0E2CC; color: #6B4423; }
+  .btn-secundario:hover:not(:disabled) { background: #E4D2B7; }
+
+  .mensagem { margin-top: 18px; padding: 14px 18px; border-radius: 10px; font-family: Arial, sans-serif; font-size: 14px; text-align: center; display: none; }
+  .mensagem.sucesso { display: block; background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+  .mensagem.erro { display: block; background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
+
+  .toast { position: fixed; bottom: 20px; right: 20px; left: 20px; max-width: 340px; margin-left: auto; background: #2E7D32; color: #FFF; padding: 14px 22px; border-radius: 10px; font-size: 14px; font-family: Arial, sans-serif; box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 9999; display: none; }
+  .toast.erro { background: #C62828; }
+
+  @media (max-width: 700px) {
+    .card { padding: 24px 20px; }
+    .card h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">📖 Ensino <span>Fácil</span></a>
+  <div class="menu" id="menu"></div>
+</header>
+
+<main>
+  <a href="index.html" class="voltar">← Voltar</a>
+
+  <!-- CARD 1: Foto + dados -->
+  <div class="card">
+    <h2>👤 Minha Conta</h2>
+    <p class="sub">Atualize seus dados pessoais</p>
+
+    <div class="area-foto">
+      <div class="foto-wrapper" onclick="document.getElementById('inputFoto').click()">
+        <div class="foto" id="fotoPreview">👤</div>
+        <div class="icone-camera">📷</div>
+      </div>
+      <input type="file" id="inputFoto" accept="image/*" onchange="subirFoto(this.files[0])">
+      <div class="foto-info">Clique na foto pra trocar 📷</div>
+    </div>
+
+    <div class="campo">
+      <label>Nome</label>
+      <input type="text" id="campoNome" placeholder="Seu nome">
+    </div>
+
+    <div class="campo">
+      <label>WhatsApp (com DDD)</label>
+      <input type="tel" id="campoWhats" placeholder="(11) 99999-9999">
+    </div>
+
+    <div class="campo">
+      <label>E-mail</label>
+      <input type="email" id="campoEmail" disabled>
+      <div class="ajuda">O e-mail não pode ser alterado (é o seu login)</div>
+    </div>
+
+    <button class="btn" id="btnSalvar" onclick="salvarDados()">Salvar alterações</button>
+    <div class="mensagem" id="msgDados"></div>
+  </div>
+
+  <!-- CARD 2: Trocar senha -->
+  <div class="card">
+    <h2>🔒 Trocar senha</h2>
+    <p class="sub">Deixe em branco se não quiser mudar</p>
+
+    <div class="campo">
+      <label>Senha atual</label>
+      <input type="password" id="senhaAtual" placeholder="Sua senha atual">
+    </div>
+
+    <div class="campo">
+      <label>Nova senha</label>
+      <input type="password" id="senhaNova" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <div class="campo">
+      <label>Confirmar nova senha</label>
+      <input type="password" id="senhaConfirma" placeholder="Digite a nova senha novamente">
+    </div>
+
+    <button class="btn btn-secundario" id="btnSenha" onclick="trocarSenha()">Trocar senha</button>
+    <div class="mensagem" id="msgSenha"></div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = "https://lfepiujvufjbufzblnke.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_gtzU89_Ygs146r-beP3nHA_nIEdFK8j";
+
+  const token = localStorage.getItem('ef_token');
+  const userRaw = localStorage.getItem('ef_user');
+
+  // Se não estiver logado, manda pra login
+  if (!token || !userRaw) {
+    window.location.href = 'entrar.html';
+  }
+
+  let user = JSON.parse(userRaw);
+  let foto_url_global = '';
+
+  // ===== MENU =====
+  const menu = document.getElementById('menu');
+  const nome = (user.user_metadata && user.user_metadata.nome) || 'você';
+  menu.innerHTML = `
+    <span style="color:#8B5E3C;font-size:13px;">Olá, ${nome.split(' ')[0]}!</span>
+    <a href="minha-biblioteca.html" class="btn-estante">📚 Minha Estante</a>
+    <button class="btn-sair" onclick="sair()">Sair</button>
+  `;
+
+  function sair() {
+    localStorage.removeItem('ef_token');
+    localStorage.removeItem('ef_user');
+    window.location.href = 'index.html';
+  }
+
+  // ===== TOAST =====
+  function toast(msg, erro) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (erro ? ' erro' : '');
+    t.style.display = 'block';
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => { t.style.display = 'none'; }, 3000);
+  }
+
+  function mostrarMsg(id, texto, tipo) {
+    const el = document.getElementById(id);
+    el.textContent = texto;
+    el.className = 'mensagem ' + tipo;
+  }
+
+  // ===== CARREGAR DADOS =====
+  async function carregarPerfil() {
+    // Busca os dados mais atualizados do cliente no banco
+    const res = await fetch(SUPABASE_URL + '/rest/v1/clientes?select=*&id=eq.' + user.id, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + token
+      }
+    });
+    const lista = await res.json();
+    if (lista.length > 0) {
+      const cl = lista[0];
+      document.getElementById('campoNome').value = cl.nome || '';
+      document.getElementById('campoWhats').value = cl.whatsapp || '';
+      document.getElementById('campoEmail').value = cl.email || '';
+      if (cl.foto_url) {
+        foto_url_global = cl.foto_url;
+        document.getElementById('fotoPreview').innerHTML = `<img src="${cl.foto_url}">`;
+      }
+    } else {
+      // Se não tiver na tabela clientes, usa os metadados
+      document.getElementById('campoNome').value = user.user_metadata?.nome || '';
+      document.getElementById('campoWhats').value = user.user_metadata?.whatsapp || '';
+      document.getElementById('campoEmail').value = user.email || '';
+    }
+  }
+  carregarPerfil();
+
+  // ===== UPLOAD DA FOTO =====
+  async function subirFoto(file) {
+    if (!file) return;
+    const preview = document.getElementById('fotoPreview');
+    preview.innerHTML = '<span style="font-size:22px;">⏳</span>';
+    try {
+      const limpo = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const nomeArq = 'perfil-' + user.id + '-' + Date.now() + '-' + limpo;
+      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/capas/${nomeArq}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': file.type || 'application/octet-stream',
+          'x-upsert': 'true'
+        },
+        body: file
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const url = `${SUPABASE_URL}/storage/v1/object/public/capas/${nomeArq}`;
+      foto_url_global = url;
+      preview.innerHTML = `<img src="${url}">`;
+      toast('Foto enviada! Não esqueça de salvar ✅');
+    } catch (e) {
+      preview.innerHTML = '👤';
+      toast('Erro ao enviar foto: ' + e.message, true);
+    }
+  }
+
+  // ===== SALVAR DADOS =====
+  async function salvarDados() {
+    const nome = document.getElementById('campoNome').value.trim();
+    const whats = document.getElementById('campoWhats').value.trim();
+    const btn = document.getElementById('btnSalvar');
+    const msgId = 'msgDados';
+
+    if (!nome) { mostrarMsg(msgId, 'Digite seu nome.', 'erro'); return; }
+    if (!whats) { mostrarMsg(msgId, 'Digite seu WhatsApp.', 'erro'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    try {
+      // 1) Atualiza a tabela clientes
+      await fetch(SUPABASE_URL + '/rest/v1/clientes?id=eq.' + user.id, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify({
+          nome,
+          whatsapp: whats,
+          foto_url: foto_url_global || null
+        })
+      });
+
+      // 2) Atualiza os metadados do auth (nome e whatsapp)
+      await fetch(SUPABASE_URL + '/auth/v1/user', {
+        method: 'PUT',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: { nome, whatsapp: whats, foto_url: foto_url_global || null }
+        })
+      });
+
+      // 3) Atualiza os dados salvos no navegador
+      user.user_metadata = user.user_metadata || {};
+      user.user_metadata.nome = nome;
+      user.user_metadata.whatsapp = whats;
+      user.user_metadata.foto_url = foto_url_global || null;
+      localStorage.setItem('ef_user', JSON.stringify(user));
+
+      mostrarMsg(msgId, 'Dados atualizados com sucesso! ✅', 'sucesso');
+      toast('Salvo! ✅');
+      carregarPerfil();
+    } catch (e) {
+      mostrarMsg(msgId, 'Erro ao salvar: ' + e.message, 'erro');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Salvar alterações';
+    }
+  }
+
+  // ===== TROCAR SENHA =====
+  async function trocarSenha() {
+    const atual = document.getElementById('senhaAtual').value;
+    const nova = document.getElementById('senhaNova').value;
+    const conf = document.getElementById('senhaConfirma').value;
+    const btn = document.getElementById('btnSenha');
+    const msgId = 'msgSenha';
+
+    if (!nova) { mostrarMsg(msgId, 'Digite a nova senha.', 'erro'); return; }
+    if (nova.length < 6) { mostrarMsg(msgId, 'A senha precisa ter pelo menos 6 caracteres.', 'erro'); return; }
+    if (nova !== conf) { mostrarMsg(msgId, 'As senhas não batem.', 'erro'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Trocando...';
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/auth/v1/user', {
+        method: 'PUT',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password: nova })
+      });
+      const data = await res.json();
+
+      if (data.error || data.msg) {
+        mostrarMsg(msgId, 'Erro: ' + (data.error_description || data.msg || data.error), 'erro');
+        return;
+      }
+
+      mostrarMsg(msgId, 'Senha alterada com sucesso! ✅', 'sucesso');
+      toast('Senha trocada! ✅');
+      document.getElementById('senhaAtual').value = '';
+      document.getElementById('senhaNova').value = '';
+      document.getElementById('senhaConfirma').value = '';
+    } catch (e) {
+      mostrarMsg(msgId, 'Erro de conexão.', 'erro');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Trocar senha';
+    }
+  }
+</script>
+
+</body>
+</html>
